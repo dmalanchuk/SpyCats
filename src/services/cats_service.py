@@ -42,3 +42,15 @@ class CatService:
 
         new_cat = await self.cat_repo.create_cat(cat_data)
         return new_cat
+
+    async def get_all_cats(self) -> list[CatsModel]:
+        return await self.cat_repo.get_all_cats()
+
+    async def get_cat_by_id(self, cat_id: int) -> CatsModel:
+        cat = await self.cat_repo.get_cat_by_id(cat_id)
+        if not cat:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Cat with id {cat_id} not found."
+            )
+        return cat
