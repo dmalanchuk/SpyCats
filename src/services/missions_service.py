@@ -11,6 +11,16 @@ class MissionService:
         self.mission_repo = mission_repo
         self.cat_repo = cat_repo
 
+    async def create_new_mission(self, mission_data: MissionCreate) -> MissionsModel:
+        target_names = [target.name for target in mission_data.targets]
+        if len(target_names) != len(set(target_names)):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Target names within a single mission must be unique."
+            )
+        new_mission = await self.mission_repo.create_mission(mission_data)
+        return new_mission
+
     async def assign_cat_to_mission(self, mission_id: int, cat_id: int) -> MissionsModel:
         mission = await self.mission_repo.get_mission_by_id(mission_id)
         if not mission:
@@ -40,3 +50,15 @@ class MissionService:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, "Cannot delete a mission that has a cat assigned.")
 
         await self.mission_repo.delete_mission(mission)
+
+    async def get_all_missions(self) -> list[MissionsModel]:
+        return await self.mission_repo.get_all_missions()
+
+    async def get_mission_by_id(self, mission_id: int) -> MissionsModel:
+        mission = await self.mission_repo.get_mission_by_id(mission_id)
+        if not mission:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Mission with id {mission_id} not found."
+            )
+        return mission

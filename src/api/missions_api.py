@@ -62,3 +62,33 @@ async def delete_mission(
 ):
     await mission_service.remove_mission(mission_id)
     return None
+
+
+@router.get(
+    "/",
+    response_model=list[MissionResponse],
+    summary="Get all Missions",
+    responses={
+        status.HTTP_200_OK: {"description": "List of all missions successfully retrieved."}
+    },
+)
+async def get_all_missions(
+        mission_service: MissionService = Depends(get_mission_service)
+):
+    return await mission_service.get_all_missions()
+
+
+@router.get(
+    "/{mission_id}",
+    response_model=MissionResponse,
+    summary="Get a single Mission",
+    responses={
+        status.HTTP_200_OK: {"description": "Mission data successfully retrieved."},
+        status.HTTP_404_NOT_FOUND: {"description": "A mission with the specified ID was not found."},
+    },
+)
+async def get_mission(
+        mission_id: int,
+        mission_service: MissionService = Depends(get_mission_service)
+):
+    return await mission_service.get_mission_by_id(mission_id)
