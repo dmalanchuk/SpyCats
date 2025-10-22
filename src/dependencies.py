@@ -5,13 +5,29 @@ from src.database import get_session
 
 from src.repositories.cats_repo import CatRepository
 from src.services.cats_service import CatService
+from src.repositories.missions_repo import MissionRepository
+from src.services.missions_service import MissionService
+
 
 async def get_cat_repository(
-    session: AsyncSession = Depends(get_session)
+        session: AsyncSession = Depends(get_session)
 ) -> CatRepository:
     return CatRepository(session)
 
+
 async def get_cat_service(
-    repo: CatRepository = Depends(get_cat_repository)
+        repo: CatRepository = Depends(get_cat_repository)
 ) -> CatService:
     return CatService(repo)
+
+
+async def get_mission_repository(
+        session: AsyncSession = Depends(get_session)
+) -> MissionRepository:
+    return MissionRepository(session)
+
+
+async def get_mission_service(
+        repo: MissionRepository = Depends(get_mission_repository)
+) -> MissionService:
+    return MissionService(repo)
