@@ -1,8 +1,5 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.database import Base
-
-from src.models.targets_model import TargetsModel
-from src.models.cats_model import CatsModel
 from typing import Optional
 
 
