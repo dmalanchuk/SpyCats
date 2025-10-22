@@ -1,9 +1,27 @@
-from pydantic import BaseModel
-from src.schemas.complected_schema import Completed, InProgress, NotStarted
+from pydantic import BaseModel, Field
+from typing import Literal
+
+TargetStatus = Literal["Not Started", "In Progress", "Completed"]
 
 
-class TargetsSchema(BaseModel):
-    name: str
-    country: str
+class TargetCreate(BaseModel):
+    name: str = Field(..., min_length=1, max_length=24)
+    country: str = Field(..., min_length=1, max_length=24)
+
+
+class TargetUpdateNotes(BaseModel):
+    notes: str = Field(..., min_length=0, max_length=100)  # Дозволяємо пустий рядок
+
+
+class TargetUpdateStatus(BaseModel):
+    status: TargetStatus
+
+
+class TargetResponse(TargetCreate):
+    id: int
     notes: str
-    completed: NotStarted | InProgress | Completed
+    mission_id: int
+    status: TargetStatus = "Not Started"
+
+    class Config:
+        from_attributes = True
