@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from sqlalchemy.future import select
 
-from src.models.cats_model import TargetsModel, MissionsModel
+from src.models.database_model import TargetsModel, MissionsModel
 
 class TargetRepository:
     def __init__(self, session: AsyncSession):

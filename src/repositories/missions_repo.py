@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from sqlalchemy.future import select
 
-from src.models.cats_model import MissionsModel, TargetsModel
+from src.models.database_model import MissionsModel, TargetsModel
 from src.schemas.missions_schema import MissionCreate
 
 

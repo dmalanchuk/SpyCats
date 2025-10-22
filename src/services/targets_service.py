@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 from src.repositories.targets_repo import TargetRepository
 from src.schemas.targets_schema import TargetStatus
-from src.models.cats_model import TargetsModel
+from src.models.database_model import TargetsModel
 
 
 class TargetService:

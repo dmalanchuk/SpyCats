@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from typing import Optional
 
-from src.models.cats_model import CatsModel
+from src.models.database_model import CatsModel
 from src.schemas.cats_schema import CatCreate
 
 

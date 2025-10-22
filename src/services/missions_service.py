@@ -3,7 +3,7 @@ from fastapi import HTTPException, status
 from src.repositories.missions_repo import MissionRepository
 from src.repositories.cats_repo import CatRepository
 from src.schemas.missions_schema import MissionCreate
-from src.models.cats_model import MissionsModel
+from src.models.database_model import MissionsModel
 
 
 class MissionService:

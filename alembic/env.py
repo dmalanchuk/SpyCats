@@ -7,7 +7,7 @@ from alembic import context
 
 from src.config import settings
 from src.database import Base
-from src.models import cats_model, missions_model, targets_model
+from src.models import database_model
 
 DATABASE_URL = settings.DATABASE_URL
 SYNC_DATABASE_URL = DATABASE_URL.replace("asyncpg", "psycopg2")

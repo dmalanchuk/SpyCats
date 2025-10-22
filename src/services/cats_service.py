@@ -3,7 +3,7 @@ from fastapi import HTTPException, status
 
 from src.repositories.cats_repo import CatRepository
 from src.schemas.cats_schema import CatCreate
-from src.models.cats_model import CatsModel
+from src.models.database_model import CatsModel
 
 
 class CatService:
