@@ -10,6 +10,7 @@ class MissionRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
+    # create missions with targets
     async def create_mission(self, mission_data: MissionCreate) -> MissionsModel:
         new_mission = MissionsModel(is_complete=False)
 
@@ -32,6 +33,7 @@ class MissionRepository:
 
         return created_mission_with_targets
 
+    # get mission by id
     async def get_mission_by_id(self, mission_id: int) -> MissionsModel | None:
         stmt = (
             select(MissionsModel)
@@ -44,15 +46,18 @@ class MissionRepository:
         result = await self.session.execute(stmt)
         return result.scalar_one_or_none()
 
+    # update mission
     async def update_mission(self, mission: MissionsModel) -> MissionsModel:
         await self.session.commit()
         await self.session.refresh(mission)
         return mission
 
+    # delete mission
     async def delete_mission(self, mission: MissionsModel) -> None:
         await self.session.delete(mission)
         await self.session.commit()
 
+    # get missions list
     async def get_all_missions(self) -> list[MissionsModel]:
         stmt = (
             select(MissionsModel)

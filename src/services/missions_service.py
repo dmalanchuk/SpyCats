@@ -11,6 +11,7 @@ class MissionService:
         self.mission_repo = mission_repo
         self.cat_repo = cat_repo
 
+    # create new mission
     async def create_new_mission(self, mission_data: MissionCreate) -> MissionsModel:
         target_names = [target.name for target in mission_data.targets]
         if len(target_names) != len(set(target_names)):
@@ -21,6 +22,7 @@ class MissionService:
         new_mission = await self.mission_repo.create_mission(mission_data)
         return new_mission
 
+    # assign cat to mission
     async def assign_cat_to_mission(self, mission_id: int, cat_id: int) -> MissionsModel:
         mission = await self.mission_repo.get_mission_by_id(mission_id)
         if not mission:
@@ -41,6 +43,7 @@ class MissionService:
         updated_mission = await self.mission_repo.update_mission(mission)
         return await self.mission_repo.get_mission_by_id(updated_mission.id)
 
+    # delete mission
     async def remove_mission(self, mission_id: int) -> None:
         mission = await self.mission_repo.get_mission_by_id(mission_id)
         if not mission:
@@ -51,6 +54,7 @@ class MissionService:
 
         await self.mission_repo.delete_mission(mission)
 
+    # get all missions
     async def get_all_missions(self) -> list[MissionsModel]:
         return await self.mission_repo.get_all_missions()
 

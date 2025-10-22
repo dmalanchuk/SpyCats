@@ -8,12 +8,12 @@ class TargetService:
     def __init__(self, repo: TargetRepository):
         self.repo = repo
 
+    # update target notes and status
     async def _get_target_and_check_frozen(self, target_id: int) -> TargetsModel:
         target = await self.repo.get_target_by_id(target_id)
         if not target:
             raise HTTPException(status.HTTP_404_NOT_FOUND, f"Target {target_id} not found.")
 
-        # Перевірка, чи не завершена місія або сама ціль
         if target.mission.is_complete or target.status == "Completed":
             raise HTTPException(
                 status.HTTP_400_BAD_REQUEST,
@@ -21,11 +21,13 @@ class TargetService:
             )
         return target
 
+    # update target notes
     async def update_target_notes(self, target_id: int, notes: str) -> TargetsModel:
         target = await self._get_target_and_check_frozen(target_id)
         target.notes = notes
         return await self.repo.update_target(target)
 
+    # update target status
     async def update_target_status(self, target_id: int, new_status: TargetStatus) -> TargetsModel:
         target = await self._get_target_and_check_frozen(target_id)
         target.status = new_status

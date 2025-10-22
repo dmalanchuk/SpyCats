@@ -10,6 +10,7 @@ class CatService:
     def __init__(self, cat_repo: CatRepository):
         self.cat_repo = cat_repo
 
+    # validate breed from api
     async def _validate_breed_from_api(self, breed_name: str) -> bool:
         api_url = f"https://api.thecatapi.com/v1/breeds/search?q={breed_name}"
         async with httpx.AsyncClient() as client:
@@ -24,6 +25,7 @@ class CatService:
                     detail="Could not connect to TheCatAPI to validate breed."
                 )
 
+    # create new cat
     async def create_new_cat(self, cat_data: CatCreate) -> CatsModel:
 
         existing_cat = await self.cat_repo.get_cat_by_name(cat_data.name)
@@ -43,9 +45,11 @@ class CatService:
         new_cat = await self.cat_repo.create_cat(cat_data)
         return new_cat
 
+    # get all cats
     async def get_all_cats(self) -> list[CatsModel]:
         return await self.cat_repo.get_all_cats()
 
+    # get cat by id
     async def get_cat_by_id(self, cat_id: int) -> CatsModel:
         cat = await self.cat_repo.get_cat_by_id(cat_id)
         if not cat:
@@ -55,6 +59,7 @@ class CatService:
             )
         return cat
 
+    # update cat salary
     async def update_cat_salary(self, cat_id: int, new_salary: int) -> CatsModel:
         cat_to_update = await self.get_cat_by_id(cat_id)
 
@@ -62,6 +67,7 @@ class CatService:
 
         return await self.cat_repo.update_cat(cat_to_update)
 
+    # delete cat by id
     async def remove_cat(self, cat_id: int) -> None:
         cat_to_delete = await self.get_cat_by_id(cat_id)
 
