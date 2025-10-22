@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import get_session
 
-from src.repositories.cats_repositories import CatRepository
+from src.repositories.cats_repo import CatRepository
 from src.services.cats_service import CatService
 
 async def get_cat_repository(
