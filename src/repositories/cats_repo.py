@@ -31,3 +31,12 @@ class CatRepository:
 
     async def get_cat_by_id(self, cat_id: int) -> Optional[CatsModel]:
         return await self.session.get(CatsModel, cat_id)
+
+    async def update_cat(self, cat: CatsModel) -> CatsModel:
+        await self.session.commit()
+        await self.session.refresh(cat)
+        return cat
+
+    async def delete_cat(self, cat: CatsModel) -> None:
+        await self.session.delete(cat)
+        await self.session.commit()
