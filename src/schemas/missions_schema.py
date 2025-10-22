@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 from src.schemas.targets_schema import TargetCreate, TargetResponse
+from src.schemas.cats_schema import CatResponse
 
 
 class MissionCreate(BaseModel):
@@ -14,7 +15,7 @@ class MissionAssignCat(BaseModel):
 
 class MissionResponse(BaseModel):
     id: int
-    cat_id: Optional[int] = None
+    cat: Optional[CatResponse] = None
 
     is_complete: bool = False
     targets: list[TargetResponse]
