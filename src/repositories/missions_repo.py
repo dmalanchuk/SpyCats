@@ -53,3 +53,14 @@ class MissionRepository:
         await self.session.delete(mission)
         await self.session.commit()
 
+    async def get_all_missions(self) -> list[MissionsModel]:
+        stmt = (
+            select(MissionsModel)
+            .options(
+                selectinload(MissionsModel.targets),
+                selectinload(MissionsModel.cat)
+            )
+            .order_by(MissionsModel.id)
+        )
+        result = await self.session.execute(stmt)
+        return list(result.scalars().all())
