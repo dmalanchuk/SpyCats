@@ -9,7 +9,7 @@ class MissionCreate(BaseModel):
 
 
 class MissionAssignCat(BaseModel):
-    cat_id: int = Field(..., gt=0, description="ID кота, який призначається на місію.")
+    cat_id: int = Field(..., gt=0, description="ID cats for executed mission")
 
 
 class MissionResponse(BaseModel):
