@@ -26,21 +26,22 @@ class CatsModel(Base):
         uselist=False
     )
 
-    class MissionsModel(Base):
-        __tablename__ = "missions"
 
-        id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-        is_complete: Mapped[bool] = mapped_column(nullable=False, default=False)
+class MissionsModel(Base):
+    __tablename__ = "missions"
 
-        cat: Mapped[Optional["CatsModel"]] = relationship(
-            back_populates="mission",
-            uselist=False
-        )
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    is_complete: Mapped[bool] = mapped_column(nullable=False, default=False)
 
-        targets: Mapped[list["TargetsModel"]] = relationship(
-            back_populates="mission",
-            cascade="all, delete-orphan"
-        )
+    cat: Mapped[Optional["CatsModel"]] = relationship(
+        back_populates="mission",
+        uselist=False
+    )
+
+    targets: Mapped[list["TargetsModel"]] = relationship(
+        back_populates="mission",
+        cascade="all, delete-orphan"
+    )
 
 
 class TargetsModel(Base):
