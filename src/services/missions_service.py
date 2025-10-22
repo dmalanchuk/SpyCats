@@ -1,13 +1,15 @@
 from fastapi import HTTPException, status
 
 from src.repositories.missions_repo import MissionRepository
+from src.repositories.cats_repo import CatRepository
 from src.schemas.missions_schema import MissionCreate
 from src.models.cats_model import MissionsModel
 
 
 class MissionService:
-    def __init__(self, mission_repo: MissionRepository):
+    def __init__(self, mission_repo: MissionRepository, cat_repo: CatRepository):
         self.mission_repo = mission_repo
+        self.cat_repo = cat_repo
 
     async def create_new_mission(self, mission_data: MissionCreate) -> MissionsModel:
         target_names = [target.name for target in mission_data.targets]
