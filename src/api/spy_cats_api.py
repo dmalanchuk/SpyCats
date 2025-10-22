@@ -9,7 +9,7 @@ router = APIRouter(prefix="/spy")
 
 @router.post(
     "/cats",
-    summary="Create new soy cats",
+    summary="Create new spy cats",
     description="This endpoint allows you to create a new cpy cats",
     status_code=201,
     responses={
@@ -18,7 +18,6 @@ router = APIRouter(prefix="/spy")
     },
 )
 async def create_spy_cats(
-        request: Request,
         session: AsyncSession = Depends(get_session)
 ):
     return "hi"
