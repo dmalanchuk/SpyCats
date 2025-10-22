@@ -1,7 +1,7 @@
 import httpx
 from fastapi import HTTPException, status
 
-from src.repositories.cats_repositories import CatRepository
+from src.repositories.cats_repo import CatRepository
 from src.schemas.cats_schema import CatCreate
 from src.models.cats_model import CatsModel
 
@@ -54,3 +54,21 @@ class CatService:
                 detail=f"Cat with id {cat_id} not found."
             )
         return cat
+
+    async def update_cat_salary(self, cat_id: int, new_salary: int) -> CatsModel:
+        cat_to_update = await self.get_cat_by_id(cat_id)
+
+        cat_to_update.salary = new_salary
+
+        return await self.cat_repo.update_cat(cat_to_update)
+
+    async def remove_cat(self, cat_id: int) -> None:
+        cat_to_delete = await self.get_cat_by_id(cat_id)
+
+        if cat_to_delete.mission_id is not None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot delete a cat that is currently on a mission."
+            )
+
+        await self.cat_repo.delete_cat(cat_to_delete)
