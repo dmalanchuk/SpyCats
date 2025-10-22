@@ -28,6 +28,7 @@ async def get_mission_repository(
 
 
 async def get_mission_service(
-        repo: MissionRepository = Depends(get_mission_repository)
+        mission_repo: MissionRepository = Depends(get_mission_repository),
+        cat_repo: CatRepository = Depends(get_cat_repository)
 ) -> MissionService:
-    return MissionService(repo)
+    return MissionService(mission_repo=mission_repo, cat_repo=cat_repo)
