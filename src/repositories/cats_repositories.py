@@ -23,3 +23,11 @@ class CatRepository:
         await self.session.refresh(new_cat)
 
         return new_cat
+
+    async def get_all_cats(self) -> list[CatsModel]:
+        stmt = select(CatsModel).order_by(CatsModel.id)
+        result = await self.session.execute(stmt)
+        return list(result.scalars().all())
+
+    async def get_cat_by_id(self, cat_id: int) -> Optional[CatsModel]:
+        return await self.session.get(CatsModel, cat_id)
