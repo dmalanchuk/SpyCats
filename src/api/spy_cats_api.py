@@ -1,12 +1,14 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from src.database import get_session
+from src.schemas.cats_schema import CatCreate, CatResponse
+from src.services.cats_service import CatService
+from src.dependencies import get_cat_service
 
 router = APIRouter(prefix="/cats")
 
+
 @router.post(
     "/",
+    response_model=CatResponse,
     summary="Create new spy cats",
     description="This endpoint allows you to create a new cpy cats",
     status_code=201,
@@ -16,6 +18,8 @@ router = APIRouter(prefix="/cats")
     },
 )
 async def create_spy_cats(
-        session: AsyncSession = Depends(get_session)
+        cat_data: CatCreate,
+        cat_service: CatService = Depends(get_cat_service)
 ):
-    return "hi"
+    return await cat_service.create_new_cat(cat_data)
+
