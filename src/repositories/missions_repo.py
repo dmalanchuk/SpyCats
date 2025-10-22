@@ -31,3 +31,25 @@ class MissionRepository:
         created_mission_with_targets = result.scalar_one()
 
         return created_mission_with_targets
+
+    async def get_mission_by_id(self, mission_id: int) -> MissionsModel | None:
+        stmt = (
+            select(MissionsModel)
+            .where(MissionsModel.id == mission_id)
+            .options(
+                selectinload(MissionsModel.targets),
+                selectinload(MissionsModel.cat)
+            )
+        )
+        result = await self.session.execute(stmt)
+        return result.scalar_one_or_none()
+
+    async def update_mission(self, mission: MissionsModel) -> MissionsModel:
+        await self.session.commit()
+        await self.session.refresh(mission)
+        return mission
+
+    async def delete_mission(self, mission: MissionsModel) -> None:
+        await self.session.delete(mission)
+        await self.session.commit()
+
